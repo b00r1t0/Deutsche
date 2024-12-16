@@ -2,16 +2,18 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const fs = require('fs');
+const path = require('path'); // Required to resolve file paths
 
 const app = express();
-const PORT = process.env.PORT || 3000; // Use environment variable for Render or default to 3000
+const PORT = process.env.PORT || 3000;
 
 // Debug: Print the current directory
 console.log("Current directory:", __dirname);
 
 // Middleware
-app.use(cors()); // Allow requests from other origins (e.g., your frontend)
+app.use(cors()); // Allow requests from other origins
 app.use(bodyParser.json()); // Parse JSON requests
+app.use(express.static(__dirname)); // Serve static files from the current directory
 
 // In-memory storage for Word Bank (or load from file)
 let wordBank = [];
@@ -23,6 +25,11 @@ if (fs.existsSync('wordbank.json')) {
 }
 
 // Routes
+// Serve the main HTML file
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'class1-a1.1.html'));
+});
+
 // GET: Fetch Word Bank
 app.get('/wordbank', (req, res) => {
     res.json(wordBank);
@@ -32,16 +39,9 @@ app.get('/wordbank', (req, res) => {
 app.post('/wordbank', (req, res) => {
     console.log("Received Word Bank Data:", req.body); // Debug incoming data
     wordBank = req.body;
-
-    // Save to file
-    try {
-        fs.writeFileSync('wordbank.json', JSON.stringify(wordBank, null, 2)); // Save to file
-        console.log("Word Bank saved to file: wordbank.json");
-        res.status(200).send('Word Bank updated successfully!');
-    } catch (error) {
-        console.error("Error writing to file:", error);
-        res.status(500).send('Failed to save Word Bank.');
-    }
+    fs.writeFileSync('wordbank.json', JSON.stringify(wordBank, null, 2)); // Save to file
+    console.log("Word Bank saved to file: wordbank.json");
+    res.status(200).send('Word Bank updated successfully!');
 });
 
 // Start the server
