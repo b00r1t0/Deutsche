@@ -9,7 +9,7 @@ function loadWordBank() {
     }
 
     // Fetch initial data from the server
-    fetch('https://deutsche.onrender.com/wordbank')
+    fetch('https://deutsche-1.onrender.com/wordbank')
         .then(response => response.json())
         .then(data => {
             data.forEach(item => addRowWithData(item.word, item.translation, item.category));
