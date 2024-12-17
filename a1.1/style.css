@@ -1,0 +1,133 @@
+/* General Styling */
+body {
+    font-family: 'Poppins', Arial, sans-serif; /* Modern font */
+    margin: 0;
+    padding: 20px;
+    line-height: 1.6; /* Better readability */
+    color: #333; /* Slightly darker text color for modern look */
+}
+
+h1, p {
+    font-weight: 600; /* Bold headings */
+    margin-bottom: 15px;
+    color: #2c3e50; /* Modern dark-blue shade */
+}
+
+.play-button {
+    cursor: pointer;
+    color: #2980b9; /* Blue for links */
+    text-decoration: underline;
+    font-size: 1.2rem;
+}
+
+/* Layout: Two Sections Side-by-Side */
+.container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* Left Section for TTS */
+.left-section {
+    flex: 1;
+}
+
+/* Right Section for Word Bank */
+.right-section {
+    flex: 1;
+    border: 1px solid #ddd;
+    padding: 15px;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+}
+
+.word-bank table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 14px; /* Slightly smaller, cleaner table font */
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background-color: #ecf0f1; /* Light gray-blue */
+    font-weight: 500;
+}
+
+button {
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #784caf;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-family: 'Poppins', Arial, sans-serif; /* Apply modern font to buttons */
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, transform 0.1s ease;
+}
+
+button:hover {
+    background-color: #5e10a3;
+    transform: scale(1.05);
+}
+
+/* Action Buttons for Update, Delete, Play */
+.action-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-family: 'Poppins', Arial, sans-serif; /* Apply modern font */
+    transition: background-color 0.2s ease-in-out, transform 0.1s ease;
+}
+
+.action-btn:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+}
+
+.action-btn i {
+    vertical-align: middle;
+    font-size: 1rem;
+}
+
+/* Specific Styles for Add, Update, Delete Buttons */
+.add-row {
+    color: green;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.update-row .action-btn {
+    background-color: #17a2b8;
+}
+
+.update-row .action-btn:hover {
+    background-color: #138496;
+}
+
+.delete-row .action-btn {
+    background-color: #dc3545;
+}
+
+.delete-row .action-btn:hover {
+    background-color: #bd2130;
+}
+
+.play-row .action-btn {
+    background-color: #28a745;
+}
+
+.play-row .action-btn:hover {
+    background-color: #218838;
+}
