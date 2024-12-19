@@ -1,66 +1,6 @@
-// Load both Word Bank and Text Boxes when the page loads
-document.addEventListener('DOMContentLoaded', () => {
-    loadWordBank(); // Load word bank data
-    loadTextBoxes(); // Load text boxes
-});
+// Load word bank data when the page loads
+document.addEventListener('DOMContentLoaded', loadWordBank);
 
-// Save the left-side text boxes to localStorage
-function saveTextBoxes() {
-    const textBoxContainer = document.getElementById('textBoxContainer');
-    const textBoxData = Array.from(textBoxContainer.querySelectorAll('textarea')).map(textarea => textarea.value.trim());
-    localStorage.setItem('textBoxes', JSON.stringify(textBoxData));
-}
-
-// Load the left-side text boxes from localStorage
-function loadTextBoxes() {
-    const textBoxContainer = document.getElementById('textBoxContainer');
-    const savedTextBoxes = JSON.parse(localStorage.getItem('textBoxes')) || [];
-
-    textBoxContainer.innerHTML = ''; // Clear existing boxes
-    if (savedTextBoxes.length === 0) {
-        // Add a default empty text box if no boxes are saved
-        addTextBoxWithData('');
-    } else {
-        savedTextBoxes.forEach(text => addTextBoxWithData(text));
-    }
-}
-
-// Add a text box with specific data (used for reloading saved boxes)
-function addTextBoxWithData(text = '') {
-    const container = document.getElementById("textBoxContainer");
-    const newBox = document.createElement("div");
-    newBox.className = "dynamic-box";
-    newBox.innerHTML = `
-        <textarea placeholder="Enter text here..." oninput="adjustHeight(this)">${text}</textarea>
-        <div class="controls">
-            <button class="add-box-btn" onclick="addTextBox()">+</button>
-            <button class="delete-box-btn" onclick="deleteTextBox(this)">x</button>
-        </div>
-    `;
-    container.appendChild(newBox);
-    saveTextBoxes(); // Save whenever a new box is added
-}
-
-// Add a new empty text box
-function addTextBox() {
-    addTextBoxWithData(''); // Add an empty text box
-}
-
-// Delete a text box and save changes
-function deleteTextBox(button) {
-    const box = button.closest(".dynamic-box");
-    box.remove();
-    saveTextBoxes(); // Save whenever a box is deleted
-}
-
-// Adjust the height of the textarea dynamically
-function adjustHeight(element) {
-    element.style.height = "auto";
-    element.style.height = element.scrollHeight + "px";
-    saveTextBoxes(); // Save changes when editing a text box
-}
-
-// Word Bank Functionality
 function loadWordBank() {
     fetch('https://deutsche-1.onrender.com/wordbank')
         .then(response => response.json())
@@ -97,18 +37,18 @@ function saveWordBank() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(wordBankArray)
     })
-        .then(response => {
-            if (response.ok) {
-                console.log("Word Bank successfully sent to the server.");
-                saveToLocalStorage(wordBankArray); // Save locally for redundancy
-            } else {
-                console.error("Failed to send Word Bank to the server.");
-            }
-        })
-        .catch(error => {
-            console.error("Error:", error);
-            alert("Could not connect to the server. Ensure the server is running.");
-        });
+    .then(response => {
+        if (response.ok) {
+            console.log("Word Bank successfully sent to the server.");
+            saveToLocalStorage(wordBankArray); // Save locally for redundancy
+        } else {
+            console.error("Failed to send Word Bank to the server.");
+        }
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        alert("Could not connect to the server. Ensure the server is running.");
+    });
 }
 
 function clearWordBankTable() {
@@ -133,8 +73,6 @@ function addRowWithData(wordValue = '', translationValue = '', categoryValue = '
                 <option value="verb" ${categoryValue === 'verb' ? 'selected' : ''}>Verb</option>
                 <option value="adjective" ${categoryValue === 'adjective' ? 'selected' : ''}>Adjective</option>
                 <option value="adverb" ${categoryValue === 'adverb' ? 'selected' : ''}>Adverb</option>
-                <option value="preposition" ${categoryValue === 'preposition' ? 'selected' : ''}>Preposition</option>
-                <option value="expression" ${categoryValue === 'expression' ? 'selected' : ''}>Expression</option>
             </select>
         </td>
         <td class="add-row" onclick="addRow()">+</td>

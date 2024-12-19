@@ -4,38 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Class 1 - German TTS & Word Bank</title>
-    <link rel="stylesheet" href="style.css"> <!-- Link to external CSS -->
-    <!-- Google Fonts -->
+    <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <h1>Class 1 - Introduction to German</h1>
+    <h1>Lesson 1 - Introduction to German [17.12.2024]</h1>
 
-    <!-- Two-Column Layout -->
     <div class="container">
-        <!-- Left Section: German TTS -->
+        <!-- Left Section: Dynamic Text Boxes -->
         <div class="left-section">
-            <p>Click the play button to hear the text in proper German pronunciation:</p>
-            <div>
-                <div>
-                    <span>Guten Tag!</span>
-                    <button class="action-btn" onclick="speakText('Guten Tag!')">
-                        <i class="fas fa-play"></i>
-                    </button>
-                </div>
-                <div>
-                    <span>Wie geht's?</span>
-                    <button class="action-btn" onclick="speakText('Wie geht\'s?')">
-                        <i class="fas fa-play"></i>
-                    </button>
-                </div>
-                <div>
-                    <span>Auf Wiedersehen!</span>
-                    <button class="action-btn" onclick="speakText('Auf Wiedersehen!')">
-                        <i class="fas fa-play"></i>
-                    </button>
+            <h2>Text Input Section</h2>
+            <p>Hover over a box to add or delete text areas:</p>
+            <div id="textBoxContainer">
+                <!-- Initial text box -->
+                <div class="dynamic-box">
+                    <textarea placeholder="Enter text here..." oninput="adjustHeight(this)"></textarea>
+                    <div class="controls">
+                        <button onclick="addTextBox(this)">+</button>
+                        <button onclick="deleteTextBox(this)">x</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -59,7 +47,6 @@
                     <!-- Rows will be dynamically added here -->
                 </tbody>
             </table>
-            <!-- Buttons for Adding and Exporting Words -->
             <div style="margin-top: 10px;">
                 <button onclick="addRow()">Add New Word</button>
                 <button onclick="exportWordBank()">Export Bank</button>
@@ -67,8 +54,32 @@
         </div>
     </div>
 
-    <!-- External JavaScript Files -->
-    <script src="german-tts.js"></script> <!-- German TTS -->
-    <script src="app.js"></script> <!-- Word Bank Logic -->
+    <script src="german-tts.js"></script>
+    <script src="app.js"></script>
+    <script>
+        function adjustHeight(element) {
+            element.style.height = "auto";
+            element.style.height = element.scrollHeight + "px";
+        }
+
+        function addTextBox(button) {
+            const container = document.getElementById("textBoxContainer");
+            const newBox = document.createElement("div");
+            newBox.className = "dynamic-box";
+            newBox.innerHTML = `
+                <textarea placeholder="Enter text here..." oninput="adjustHeight(this)"></textarea>
+                <div class="controls">
+                    <button onclick="addTextBox(this)">+</button>
+                    <button onclick="deleteTextBox(this)">x</button>
+                </div>
+            `;
+            container.appendChild(newBox);
+        }
+
+        function deleteTextBox(button) {
+            const box = button.closest(".dynamic-box");
+            box.remove();
+        }
+    </script>
 </body>
 </html>
